@@ -24,14 +24,21 @@ centroids = zeros(K, n);
 %               centroid i.
 %
 % Note: You can use a for-loop over the centroids to compute this.
-%
 
+%vactor that will receive the sum in collums 1 and 2, 
+%and the amount of ex in the third one
+c_m = zeros(K, n+1);
 
+X_1 = [X, ones(m,1)];
 
+for i=1:m
+  %sum the ex that corresponds to its centroid(in idx)
+  c_m(idx(i),:) = c_m(idx(i),:) + X_1(i,:);
+endfor
 
-
-
-
+for i=1:K
+  centroids(i,:) = c_m(i,1:n)/c_m(i,n+1);
+endfor
 
 % =============================================================
 

@@ -29,9 +29,9 @@ for i=1:m
   %for each centroid  
   for j=1:K
     %distance between example and centroid (two points)
-    x_to_c(j) = sqrt((X(i,1) - centroids(j,1))^2 + (X(i,2) - centroids(j,2))^2);
+    x_to_c(j) = sqrt(sum((X(i,:) - centroids(j,:)).^2)).^2;
   endfor
-  %example receives the closest centroid 
+  %example receives the closest centroid
   [dis,c_i] = min(x_to_c);
   idx(i) = c_i;
 endfor
