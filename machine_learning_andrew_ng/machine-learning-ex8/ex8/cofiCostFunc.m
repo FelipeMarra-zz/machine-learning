@@ -70,11 +70,11 @@ for i=1:m
  
       X_grad(i,:) = X_grad(i,:) + ...
                     (Theta(j,:) * X(i,:)' - Y(i,j)) * Theta(j,:) + ...
-                    lambda*Theta(j,:);
+                    lambda*X(i,:);
 
       Theta_grad(j,:) = Theta_grad(j,:) + ...
                         (Theta(j,:) * X(i,:)' - Y(i,j)) * X(i,:) + ...
-                        lambda*X(i,:);
+                        lambda*Theta(j,:);
   
     endif
   endfor
