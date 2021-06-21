@@ -38,20 +38,47 @@ Theta_grad = zeros(size(Theta));
 %                 partial derivatives w.r.t. to each element of X
 %        Theta_grad - num_users x num_features matrix, containing the 
 %                     partial derivatives w.r.t. to each element of Theta
-%
 
+%num_features x num_users * num_features x num_movies - num_movies x num_users
+%J_Matrix = (Theta' * X - Y).^2
 
+%num_movies  x num_features * num_features x num_users
+%J_Matrix = (X * Theta' - Y).^2;
+%J = sum(sum(R' * J_Matrix))/2;
 
+[m,n] = size(R);
 
+for i=1:m
+  for j=1:n
+    if(R(i,j)==1)
+      %Theta - num_users  x num_features | X - num_movies  x num_features
+      %1 x n * 1 x n
+      J = J + (Theta(j,:) * X(i,:)' - Y(i,j))^2;
+      
+    endif
+  endfor
+endfor
 
+J = J/2 + (lambda/2)*sum(sum(Theta.^2)) + (lambda/2)*sum(sum(X.^2));
 
+for i=1:m
+  for j=1:n
+    if(R(i,j)==1)
+ 
+      %Theta - num_users  x num_features | X - num_movies  x num_features
+      %1 x n * 1 x n
+ 
+      X_grad(i,:) = X_grad(i,:) + ...
+                    (Theta(j,:) * X(i,:)' - Y(i,j)) * Theta(j,:) + ...
+                    lambda*Theta(j,:);
 
-
-
-
-
-
-
+      Theta_grad(j,:) = Theta_grad(j,:) + ...
+                        (Theta(j,:) * X(i,:)' - Y(i,j)) * X(i,:) + ...
+                        lambda*X(i,:);
+  
+    endif
+  endfor
+endfor
 
 
 
